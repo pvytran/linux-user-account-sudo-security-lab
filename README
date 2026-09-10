@@ -1,157 +1,149 @@
-# Linux User Account & Sudo Security Lab
+# Linux User & Sudo Security Lab
 
 ## Overview
 
-This hands-on lab demonstrates basic Linux system administration and security concepts involving user accounts, authentication, authorization, sudo privileges, and root account restrictions.
+This hands-on cybersecurity lab demonstrates Linux user account management, authentication, authorization, sudo privileges, file permissions, and basic root account hardening.
 
-The lab was completed in an Ubuntu Linux virtual machine and focuses on applying the principle of least privilege by providing administrative privileges only to an authorized user.
+The lab was performed in an Ubuntu Linux virtual machine using the Bash command line.
 
 ## Objectives
 
 - Create and manage Linux user accounts
 - Configure user passwords
-- Verify Linux account information
+- Verify account and group information
 - Install and configure sudo
-- Assign administrative privileges to a specific user
+- Apply administrative privileges to a specific user
 - Test access to protected system files
-- Restrict direct root login
+- Restrict interactive root login
 - Verify user and group permissions
-- Demonstrate the principle of least privilege
+- Apply the principle of least privilege
 
-## Environment
+## Lab Environment
 
-- Operating System: Ubuntu Linux
-- Virtual Machine: VMware
-- Shell: Bash
-- Administrative Tool: sudo
+| Category | Environment |
+|---|---|
+| Operating System | Ubuntu Linux |
+| Virtualization | VMware |
+| Shell | Bash |
+| Security Tool | sudo |
+| Network | NAT |
 
-## Lab Tasks
+## Accounts Created
 
-### 1. Create User Accounts
+### Administrative User
 
-Created the following accounts:
+`mlyons3`
 
-- `omega3` — administrative lab user
-- sunflower — standard user
+This account was configured with sudo privileges for administrative tasks.
 
-The accounts were created using the Linux `useradd` command.
+### Standard User
 
-Example:
+Mason NetID account
+
+This account was intentionally not added to the sudo group to demonstrate restricted administrative access.
+
+> The actual NetID is not published in this repository.
+
+## Key Tasks
+
+### 1. Create Linux User Accounts
+
+Created the `omega3` administrative account:
 
 ```bash
 useradd -c "Cocoa" -s /bin/bash -m omega3
 
-### 2. Configure sudo
 
-The sudo package was installed and the mlyons3 account was added to the sudo group.
+2. Install Sudo
+
+Updated the Ubuntu package repository and installed sudo:
 
 apt update
 apt install sudo
+3. Configure Sudo Access
+
+Added omega3 to the sudo group:
+
 usermod -aG sudo omega3
 
-The sudo group was verified with:
+Verified membership:
+
 grep '^sudo:' /etc/group
+4. Test Administrative Privileges
 
-### 3. Test Privilege Differences
+The administrative account was tested by attempting to access /etc/shadow.
 
-The difference between a standard user and a sudo-enabled user was tested by attempting to access /etc/shadow.
-
-A standard user was denied access:
+A normal user should not be able to read the file directly:
 
 cat /etc/shadow
 
-The authorized sudo user was able to access the file using:
+The sudo-enabled user can request administrative access:
 
 sudo cat /etc/shadow
 
-This demonstrated the difference between normal user permissions and elevated administrative privileges.
+Password hashes and other sensitive /etc/shadow contents are not included in this repository.
 
-Sensitive password hashes from /etc/shadow are not included in this repository.
+5. Restrict Root Login
 
-### 4. Restrict Root Login
-
-The root account's login shell was changed to /usr/sbin/nologin.
+The root account's login shell was changed to /usr/sbin/nologin:
 
 sudo /usr/sbin/usermod -s /usr/sbin/nologin root
 
-The configuration was verified with:
+The configuration was verified:
 
 grep '^root:' /etc/passwd
 
-The resulting configuration showed:
+Expected configuration:
 
 root:x:0:0:root:/root:/usr/sbin/nologin
 
-An attempt to start a root session using:
+An attempt to start a root login session using:
 
 su - root
 
 resulted in an authentication failure.
 
-### 5. Verify User and Group Configuration
-
-The final configuration was verified using:
-
-id omega3
-id sunflower
-grep '^sudo:' /etc/group
-grep '^root:' /etc/passwd
-
-The results confirmed that:
-
-mlyons3 had sudo privileges
-The Mason NetID account did not have sudo privileges
-The root account was configured with /usr/sbin/nologin
 Security Concepts Demonstrated
 Principle of Least Privilege
 
-Administrative privileges were assigned only to the account that required them.
+Only the administrative lab account was granted sudo privileges.
 
 Authentication
 
-User passwords were configured and authentication was tested during account login.
+User passwords were configured and account login behavior was tested.
 
 Authorization
 
-Different users were given different levels of access based on their group membership.
+Different users were assigned different levels of access through group membership.
 
-Privilege Escalation
+Privileged Access
 
-The sudo command was used to demonstrate controlled elevation from a standard user to administrative privileges.
+The sudo command demonstrated controlled administrative privilege escalation.
 
-Access Control
+File Permissions
 
-Access to /etc/shadow was tested to demonstrate Linux file permissions and administrative access.
+Access to /etc/shadow was used to demonstrate restrictions on sensitive system files.
 
 Account Hardening
 
-Direct interactive root login was restricted by changing the root shell to:
-
-/usr/sbin/nologin
-
+Interactive root login was restricted using the nologin shell.
 
 Evidence
 
-Screenshots documenting the lab are included in the screenshots directory.
+Screenshots documenting the lab are stored in the screenshots/ directory.
 
-Screenshot List
-Root access verification
-User account creation
-/etc/passwd and /etc/shadow verification
-Internet connectivity test
-Sudo installation
-Sudo configuration
-mlyons3 sudo access
-Root login restriction
-Standard user sudo restriction
-Lessons Learned
+#	Evidence
+01	Creation of mlyons3
+02	Creation of standard NetID account
+03	Account and password-file verification
+04	Network connectivity test
+05	Sudo installation
+06	Sudo configuration
+07	Sudo access for mlyons3
+08	Root login restriction
+09	Restricted sudo access for standard user
 
-This lab provided hands-on experience with Linux account management, groups, file permissions, sudo privileges, and basic system hardening.
 
-A key takeaway was that administrative access should be limited to authorized users rather than allowing every account to operate with elevated privileges.
 
-Disclaimer
-
-This project was performed in a controlled Ubuntu virtual machine for educational purposes.
 
 
