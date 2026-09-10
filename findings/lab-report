@@ -51,7 +51,7 @@ The sudo package was installed using:
 apt update
 apt install sudo
 
-The mlyons3 account was added to the sudo group:
+The omega3 account was added to the sudo group:
 
 usermod -aG sudo omega3
 
