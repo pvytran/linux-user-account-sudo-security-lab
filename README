@@ -1,0 +1,157 @@
+# Linux User Account & Sudo Security Lab
+
+## Overview
+
+This hands-on lab demonstrates basic Linux system administration and security concepts involving user accounts, authentication, authorization, sudo privileges, and root account restrictions.
+
+The lab was completed in an Ubuntu Linux virtual machine and focuses on applying the principle of least privilege by providing administrative privileges only to an authorized user.
+
+## Objectives
+
+- Create and manage Linux user accounts
+- Configure user passwords
+- Verify Linux account information
+- Install and configure sudo
+- Assign administrative privileges to a specific user
+- Test access to protected system files
+- Restrict direct root login
+- Verify user and group permissions
+- Demonstrate the principle of least privilege
+
+## Environment
+
+- Operating System: Ubuntu Linux
+- Virtual Machine: VMware
+- Shell: Bash
+- Administrative Tool: sudo
+
+## Lab Tasks
+
+### 1. Create User Accounts
+
+Created the following accounts:
+
+- `omega3` — administrative lab user
+- sunflower — standard user
+
+The accounts were created using the Linux `useradd` command.
+
+Example:
+
+```bash
+useradd -c "Cocoa" -s /bin/bash -m omega3
+
+### 2. Configure sudo
+
+The sudo package was installed and the mlyons3 account was added to the sudo group.
+
+apt update
+apt install sudo
+usermod -aG sudo omega3
+
+The sudo group was verified with:
+grep '^sudo:' /etc/group
+
+### 3. Test Privilege Differences
+
+The difference between a standard user and a sudo-enabled user was tested by attempting to access /etc/shadow.
+
+A standard user was denied access:
+
+cat /etc/shadow
+
+The authorized sudo user was able to access the file using:
+
+sudo cat /etc/shadow
+
+This demonstrated the difference between normal user permissions and elevated administrative privileges.
+
+Sensitive password hashes from /etc/shadow are not included in this repository.
+
+### 4. Restrict Root Login
+
+The root account's login shell was changed to /usr/sbin/nologin.
+
+sudo /usr/sbin/usermod -s /usr/sbin/nologin root
+
+The configuration was verified with:
+
+grep '^root:' /etc/passwd
+
+The resulting configuration showed:
+
+root:x:0:0:root:/root:/usr/sbin/nologin
+
+An attempt to start a root session using:
+
+su - root
+
+resulted in an authentication failure.
+
+### 5. Verify User and Group Configuration
+
+The final configuration was verified using:
+
+id omega3
+id sunflower
+grep '^sudo:' /etc/group
+grep '^root:' /etc/passwd
+
+The results confirmed that:
+
+mlyons3 had sudo privileges
+The Mason NetID account did not have sudo privileges
+The root account was configured with /usr/sbin/nologin
+Security Concepts Demonstrated
+Principle of Least Privilege
+
+Administrative privileges were assigned only to the account that required them.
+
+Authentication
+
+User passwords were configured and authentication was tested during account login.
+
+Authorization
+
+Different users were given different levels of access based on their group membership.
+
+Privilege Escalation
+
+The sudo command was used to demonstrate controlled elevation from a standard user to administrative privileges.
+
+Access Control
+
+Access to /etc/shadow was tested to demonstrate Linux file permissions and administrative access.
+
+Account Hardening
+
+Direct interactive root login was restricted by changing the root shell to:
+
+/usr/sbin/nologin
+
+
+Evidence
+
+Screenshots documenting the lab are included in the screenshots directory.
+
+Screenshot List
+Root access verification
+User account creation
+/etc/passwd and /etc/shadow verification
+Internet connectivity test
+Sudo installation
+Sudo configuration
+mlyons3 sudo access
+Root login restriction
+Standard user sudo restriction
+Lessons Learned
+
+This lab provided hands-on experience with Linux account management, groups, file permissions, sudo privileges, and basic system hardening.
+
+A key takeaway was that administrative access should be limited to authorized users rather than allowing every account to operate with elevated privileges.
+
+Disclaimer
+
+This project was performed in a controlled Ubuntu virtual machine for educational purposes.
+
+
