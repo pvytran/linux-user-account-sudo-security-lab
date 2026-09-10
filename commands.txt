@@ -1,0 +1,48 @@
+# Linux User Account & Sudo Security Lab
+
+# Verify root
+whoami
+
+# Create mlyons3
+useradd -c "Prof. Lyons" -s /bin/bash -m mlyons3
+passwd mlyons3
+
+# Create standard user
+useradd -c "Mason NetID account" -s /bin/bash -m YOURNETID
+passwd YOURNETID
+
+# Verify accounts
+id mlyons3
+id YOURNETID
+
+# Install sudo
+apt update
+apt install sudo
+
+# Check sudo group
+grep '^sudo:' /etc/group
+
+# Give mlyons3 sudo access
+usermod -aG sudo mlyons3
+
+# Test sudo
+whoami
+sudo whoami
+
+# Locate nologin
+find / -type f -name nologin 2>/dev/null
+
+# Disable interactive root login
+sudo /usr/sbin/usermod -s /usr/sbin/nologin root
+
+# Verify root configuration
+grep '^root:' /etc/passwd
+
+# Test root login restriction
+su - root
+
+# Final verification
+id mlyons3
+id YOURNETID
+grep '^sudo:' /etc/group
+grep '^root:' /etc/passwd
