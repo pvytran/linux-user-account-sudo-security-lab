@@ -1,0 +1,180 @@
+
+
+# Linux User & Sudo Security Lab Report
+
+## 1. Executive Summary
+
+This lab evaluated basic Linux account security and privilege management in an Ubuntu virtual machine.
+
+The exercise focused on creating multiple user accounts, configuring sudo privileges, testing access to protected system resources, and restricting interactive root login.
+
+The primary security objective was to demonstrate how administrative privileges can be limited to authorized users according to the principle of least privilege.
+
+## 2. Scope
+
+The assessment was performed on a controlled Ubuntu Linux virtual machine.
+
+Testing included:
+
+- User account creation
+- Password configuration
+- Group membership
+- Sudo installation
+- Sudo authorization
+- Access to `/etc/shadow`
+- Root login restrictions
+- Final account verification
+
+## 3. User Account Configuration
+
+Two types of accounts were created for testing.
+
+### Administrative Account
+
+**Username:** `omega3`
+
+The account was configured with a Bash shell and home directory and was later added to the sudo group.
+
+### Standard Account
+
+**Username:** sunflower
+
+The account was created as a standard user and was intentionally not granted sudo privileges.
+
+The actual sunflower is excluded from this public repository.
+
+## 4. Sudo Configuration
+
+The sudo package was installed using:
+
+```bash
+apt update
+apt install sudo
+
+The mlyons3 account was added to the sudo group:
+
+usermod -aG sudo omega3
+
+Group membership was verified with:
+
+grep '^sudo:' /etc/group
+5. Access Control Testing
+
+Access to the /etc/shadow file was used as a test of Linux authorization controls.
+
+A standard account attempting:
+
+cat /etc/shadow
+
+was denied access.
+
+The sudo-enabled account could request elevated privileges using:
+
+sudo cat /etc/shadow
+
+This demonstrated the difference between standard file permissions and authorized administrative access.
+
+No password hashes are included in this report.
+
+6. Root Account Hardening
+
+The root account's login shell was changed to:
+
+/usr/sbin/nologin
+
+Command used:
+
+sudo /usr/sbin/usermod -s /usr/sbin/nologin root
+
+The configuration was verified using:
+
+grep '^root:' /etc/passwd
+
+The resulting root account configuration indicated that interactive login was disabled.
+
+7. Root Login Test
+
+The following command was used:
+
+su - root
+
+The system returned:
+
+su: authentication failure
+
+This confirmed that an interactive root session could not be established through the tested method.
+
+8. Final Verification
+
+The following commands were used to verify the final configuration:
+
+id omega3
+id sunflower
+grep '^sudo:' /etc/group
+grep '^root:' /etc/passwd
+
+The final configuration demonstrated:
+
+omega3 had sudo group membership.
+The standard account did not have sudo privileges.
+The root account used /usr/sbin/nologin.
+
+9. Security Findings
+Finding 1 — Administrative privileges were restricted
+
+Status: Remediated
+
+The omega3 account was explicitly added to the sudo group while the standard account remained outside the group.
+
+Security benefit: Reduces unnecessary administrative privileges and supports least-privilege access.
+
+Finding 2 — Interactive root login was restricted
+
+Status: Remediated
+
+The root shell was changed to /usr/sbin/nologin.
+
+Security benefit: Prevents normal interactive login using the root account and encourages administrative activity through controlled sudo access.
+
+10. Security Principles
+
+The lab demonstrated several fundamental cybersecurity concepts:
+
+Least Privilege
+
+Users should receive only the privileges necessary to perform their assigned tasks.
+
+Separation of Privileges
+
+Administrative capabilities were separated from the standard user account.
+
+Defense in Depth
+
+Multiple controls were demonstrated, including file permissions, group membership, sudo authorization, and root login restrictions.
+
+Secure Configuration
+
+The Linux system was configured to reduce unnecessary direct administrative access.
+
+11. Limitations
+
+This was a controlled educational lab and was not a full security assessment.
+
+The exercise did not evaluate:
+
+Enterprise identity management
+Centralized logging
+SSH hardening
+MFA
+SELinux/AppArmor policy configuration
+Vulnerability scanning
+Endpoint detection
+Production server security
+
+12. Conclusion
+
+The lab provided hands-on experience with Linux identity and access management.
+
+The final configuration demonstrated controlled administrative access through sudo, restricted standard-user privileges, and disabled interactive root login.
+
+These concepts are foundational to Linux system administration and cybersecurity operations.
