@@ -32,7 +32,7 @@ The lab was performed in an Ubuntu Linux virtual machine using the Bash command 
 
 ### Administrative User
 
-`mlyons3`
+`omega3`
 
 This account was configured with sudo privileges for administrative tasks.
 
@@ -133,13 +133,13 @@ Evidence
 Screenshots documenting the lab are stored in the screenshots/ directory.
 
 #	Evidence
-01	Creation of mlyons3
+01	Creation of omega3
 02	Creation of standard NetID account
 03	Account and password-file verification
 04	Network connectivity test
 05	Sudo installation
 06	Sudo configuration
-07	Sudo access for mlyons3
+07	Sudo access for omega3
 08	Root login restriction
 09	Restricted sudo access for standard user
 
@@ -149,7 +149,7 @@ Findings
 
 The lab demonstrated that Linux group membership can be used to control administrative privileges.
 
-The mlyons3 account was successfully configured as a sudo-enabled administrative user, while the standard account remained restricted.
+The omega3 account was successfully configured as a sudo-enabled administrative user, while the standard account remained restricted.
 
 The root account was configured with /usr/sbin/nologin, preventing normal interactive root login.
 
