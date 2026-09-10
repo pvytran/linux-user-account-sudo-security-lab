@@ -22,7 +22,7 @@ apt install sudo
 # Check sudo group
 grep '^sudo:' /etc/group
 
-# Give mlyons3 sudo access
+# Give omega3 sudo access
 usermod -aG sudo omega3
 
 # Test sudo
