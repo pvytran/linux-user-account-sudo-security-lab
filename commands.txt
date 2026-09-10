@@ -3,17 +3,17 @@
 # Verify root
 whoami
 
-# Create mlyons3
-useradd -c "Prof. Lyons" -s /bin/bash -m mlyons3
-passwd mlyons3
+# Create omega3
+useradd -c "Cocoa" -s /bin/bash -m omega3
+passwd omega3
 
 # Create standard user
-useradd -c "Mason NetID account" -s /bin/bash -m YOURNETID
-passwd YOURNETID
+useradd -c "Jumbo" -s /bin/bash -m sunflower
+passwd sunflower
 
 # Verify accounts
-id mlyons3
-id YOURNETID
+id omega3
+id sunflower
 
 # Install sudo
 apt update
@@ -23,7 +23,7 @@ apt install sudo
 grep '^sudo:' /etc/group
 
 # Give mlyons3 sudo access
-usermod -aG sudo mlyons3
+usermod -aG sudo omega3
 
 # Test sudo
 whoami
@@ -42,7 +42,7 @@ grep '^root:' /etc/passwd
 su - root
 
 # Final verification
-id mlyons3
-id YOURNETID
+id omega3
+id sunflower
 grep '^sudo:' /etc/group
 grep '^root:' /etc/passwd
