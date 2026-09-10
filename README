@@ -145,5 +145,27 @@ Screenshots documenting the lab are stored in the screenshots/ directory.
 
 
 
+Findings
 
+The lab demonstrated that Linux group membership can be used to control administrative privileges.
+
+The mlyons3 account was successfully configured as a sudo-enabled administrative user, while the standard account remained restricted.
+
+The root account was configured with /usr/sbin/nologin, preventing normal interactive root login.
+
+Lessons Learned
+
+This lab provided practical experience with:
+
+Linux user administration
+Linux groups
+File permissions
+sudo configuration
+Privileged access
+Root account hardening
+Principle of least privilege
+Basic Linux security verification
+Disclaimer
+
+This project was completed in a controlled Ubuntu virtual machine for educational purposes.
 
